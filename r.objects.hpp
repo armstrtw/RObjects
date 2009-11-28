@@ -37,6 +37,25 @@ public:
   virtual SEXP getColnames() const = 0;
   virtual void getColnames(std::vector<std::string>& ans) const = 0;
   virtual void getSEXPS(std::vector<SEXP>& ans) const = 0;
+
+  SEXP getAttribute(char * attrName);
+  void setAttribute(char * attrName, SEXP attribute);
+
+  // FIXME: make these generic templates
+  void getClass(std::vector<std::string>& ans);
+  void setClass(const std::vector<std::string>& ans);
+};
+
+class RList : public Robject {
+private:
+friend class Robject;
+  RList(SEXP x) : Robject(x) {}
+public:
+  R_len_t length() const;
+  bool hasNames() const;
+  SEXP getNames() const;
+  void getNames(std::vector<std::string>& ans) const;
+  void getSEXP(std::vector<SEXP>& ans) const;
 };
 
 class RDataFrame : public Robject {
